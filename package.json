@@ -1,26 +1,30 @@
 {
-  "name": "to-do-list",
+  "name": "todo-list",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack --mode development",
-    "build": "webpack --mode production",
-    "start": "webpack-dev-server --mode development --open"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "webpack --progress --watch",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/tmampa/to-do-list.git"
-  },
-  "author": "",
+  "author": "michalosman",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/tmampa/to-do-list/issues"
-  },
-  "homepage": "https://github.com/tmampa/to-do-list#readme",
   "devDependencies": {
-    "html-webpack-plugin": "^5.3.2",
-    "webpack": "^5.52.1",
-    "webpack-cli": "^4.8.0"
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "prettier": "^2.2.1",
+    "webpack": "^5.18.0",
+    "webpack-cli": "^4.4.0"
+  },
+  "dependencies": {
+    "date-fns": "^2.16.1"
   }
 }
