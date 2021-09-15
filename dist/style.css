@@ -389,3 +389,27 @@
   .fa-github:hover {
     transform: rotate(360deg) scale(1.2);
   }
+
+  @media (max-width: 650px) {
+    .button-open-nav {
+      display: block;
+    }
+  
+    .main {
+      flex-direction: column;
+    }
+  
+    .nav {
+      width: 100%;
+      display: none;
+    }
+  
+    .project-preview {
+      width: 100%;
+    }
+  
+    .right-task-panel {
+      justify-content: flex-end;
+      max-width: 33%;
+    }
+  }
