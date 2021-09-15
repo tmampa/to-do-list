@@ -298,3 +298,62 @@ export default class UI {
     UI.closeAllPopups()
     nav.classList.toggle('active')
   }
+
+  // ADD TASK EVENT LISTENERS
+
+  static initAddTaskButtons() {
+    const addTaskButton = document.getElementById('button-add-task')
+    const addTaskPopupButton = document.getElementById('button-add-task-popup')
+    const cancelTaskPopupButton = document.getElementById(
+      'button-cancel-task-popup'
+    )
+    const addTaskPopupInput = document.getElementById('input-add-task-popup')
+
+    addTaskButton.addEventListener('click', UI.openAddTaskPopup)
+    addTaskPopupButton.addEventListener('click', UI.addTask)
+    cancelTaskPopupButton.addEventListener('click', UI.closeAddTaskPopup)
+    addTaskPopupInput.addEventListener('keypress', UI.handleAddTaskPopupInput)
+  }
+
+  static openAddTaskPopup() {
+    const addTaskPopup = document.getElementById('add-task-popup')
+    const addTaskButton = document.getElementById('button-add-task')
+
+    UI.closeAllPopups()
+    addTaskPopup.classList.add('active')
+    addTaskButton.classList.add('active')
+  }
+
+  static closeAddTaskPopup() {
+    const addTaskPopup = document.getElementById('add-task-popup')
+    const addTaskButton = document.getElementById('button-add-task')
+    const addTaskInput = document.getElementById('input-add-task-popup')
+
+    addTaskPopup.classList.remove('active')
+    addTaskButton.classList.remove('active')
+    addTaskInput.value = ''
+  }
+
+  static addTask() {
+    const projectName = document.getElementById('project-name').textContent
+    const addTaskPopupInput = document.getElementById('input-add-task-popup')
+    const taskName = addTaskPopupInput.value
+
+    if (taskName === '') {
+      alert("Task name can't be empty")
+      return
+    }
+    if (Storage.getTodoList().getProject(projectName).contains(taskName)) {
+      alert('Task names must be different')
+      addTaskPopupInput.value = ''
+      return
+    }
+
+    Storage.addTask(projectName, new Task(taskName))
+    UI.createTask(taskName, 'No date')
+    UI.closeAddTaskPopup()
+  }
+
+  static handleAddTaskPopupInput(e) {
+    if (e.key === 'Enter') UI.addTask()
+  }
