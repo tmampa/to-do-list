@@ -357,3 +357,173 @@ export default class UI {
   static handleAddTaskPopupInput(e) {
     if (e.key === 'Enter') UI.addTask()
   }
+
+  // TASK EVENT LISTENERS
+
+  static initTaskButtons() {
+    const taskButtons = document.querySelectorAll('[data-task-button]')
+    const taskNameInputs = document.querySelectorAll('[data-input-task-name')
+    const dueDateInputs = document.querySelectorAll('[data-input-due-date')
+
+    taskButtons.forEach((taskButton) =>
+      taskButton.addEventListener('click', UI.handleTaskButton)
+    )
+    taskNameInputs.forEach((taskNameInput) =>
+      taskNameInput.addEventListener('keypress', UI.renameTask)
+    )
+    dueDateInputs.forEach((dueDateInput) =>
+      dueDateInput.addEventListener('change', UI.setTaskDate)
+    )
+  }
+
+  static handleTaskButton(e) {
+    if (e.target.classList.contains('fa-circle')) {
+      UI.setTaskCompleted(this)
+      return
+    }
+    if (e.target.classList.contains('fa-times')) {
+      UI.deleteTask(this)
+      return
+    }
+    if (e.target.classList.contains('task-content')) {
+      UI.openRenameInput(this)
+      return
+    }
+    if (e.target.classList.contains('due-date')) {
+      UI.openSetDateInput(this)
+    }
+  }
+
+  static setTaskCompleted(taskButton) {
+    const projectName = document.getElementById('project-name').textContent
+    const taskName = taskButton.children[0].children[1].textContent
+
+    if (projectName === 'Today' || projectName === 'This week') {
+      const parentProjectName = taskName.split('(')[1].split(')')[0]
+      Storage.deleteTask(parentProjectName, taskName.split(' ')[0])
+      if (projectName === 'Today') {
+        Storage.updateTodayProject()
+      } else {
+        Storage.updateWeekProject()
+      }
+    } else {
+      Storage.deleteTask(projectName, taskName)
+    }
+    UI.clearTasks()
+    UI.loadTasks(projectName)
+  }
+
+  static deleteTask(taskButton) {
+    const projectName = document.getElementById('project-name').textContent
+    const taskName = taskButton.children[0].children[1].textContent
+
+    if (projectName === 'Today' || projectName === 'This week') {
+      const mainProjectName = taskName.split('(')[1].split(')')[0]
+      Storage.deleteTask(mainProjectName, taskName)
+    }
+    Storage.deleteTask(projectName, taskName)
+    UI.clearTasks()
+    UI.loadTasks(projectName)
+  }
+
+  static openRenameInput(taskButton) {
+    const taskNamePara = taskButton.children[0].children[1]
+    let taskName = taskNamePara.textContent
+    const taskNameInput = taskButton.children[0].children[2]
+    const projectName = taskButton.parentNode.parentNode.children[0].textContent
+
+    if (projectName === 'Today' || projectName === 'This week') {
+      ;[taskName] = taskName.split(' (')
+    }
+
+    UI.closeAllPopups()
+    taskNamePara.classList.add('active')
+    taskNameInput.classList.add('active')
+    taskNameInput.value = taskName
+  }
+
+  static closeRenameInput(taskButton) {
+    const taskName = taskButton.children[0].children[1]
+    const taskNameInput = taskButton.children[0].children[2]
+
+    taskName.classList.remove('active')
+    taskNameInput.classList.remove('active')
+    taskNameInput.value = ''
+  }
+
+  static renameTask(e) {
+    if (e.key !== 'Enter') return
+
+    const projectName = document.getElementById('project-name').textContent
+    const taskName = this.previousElementSibling.textContent
+    const newTaskName = this.value
+
+    if (newTaskName === '') {
+      alert("Task name can't be empty")
+      return
+    }
+
+    if (Storage.getTodoList().getProject(projectName).contains(newTaskName)) {
+      this.value = ''
+      alert('Task names must be different')
+      return
+    }
+
+    if (projectName === 'Today' || projectName === 'This week') {
+      const mainProjectName = taskName.split('(')[1].split(')')[0]
+      const mainTaskName = taskName.split(' ')[0]
+      Storage.renameTask(
+        projectName,
+        taskName,
+        `${newTaskName} (${mainProjectName})`
+      )
+      Storage.renameTask(mainProjectName, mainTaskName, newTaskName)
+    } else {
+      Storage.renameTask(projectName, taskName, newTaskName)
+    }
+    UI.clearTasks()
+    UI.loadTasks(projectName)
+    UI.closeRenameInput(this.parentNode.parentNode)
+  }
+
+  static openSetDateInput(taskButton) {
+    const dueDate = taskButton.children[1].children[0]
+    const dueDateInput = taskButton.children[1].children[1]
+
+    UI.closeAllPopups()
+    dueDate.classList.add('active')
+    dueDateInput.classList.add('active')
+  }
+
+  static closeSetDateInput(taskButton) {
+    const dueDate = taskButton.children[1].children[0]
+    const dueDateInput = taskButton.children[1].children[1]
+
+    dueDate.classList.remove('active')
+    dueDateInput.classList.remove('active')
+  }
+
+  static setTaskDate() {
+    const taskButton = this.parentNode.parentNode
+    const projectName = document.getElementById('project-name').textContent
+    const taskName = taskButton.children[0].children[1].textContent
+    const newDueDate = format(new Date(this.value), 'dd/MM/yyyy')
+
+    if (projectName === 'Today' || projectName === 'This week') {
+      const mainProjectName = taskName.split('(')[1].split(')')[0]
+      const mainTaskName = taskName.split(' (')[0]
+      Storage.setTaskDate(projectName, taskName, newDueDate)
+      Storage.setTaskDate(mainProjectName, mainTaskName, newDueDate)
+      if (projectName === 'Today') {
+        Storage.updateTodayProject()
+      } else {
+        Storage.updateWeekProject()
+      }
+    } else {
+      Storage.setTaskDate(projectName, taskName, newDueDate)
+    }
+    UI.clearTasks()
+    UI.loadTasks(projectName)
+    UI.closeSetDateInput(taskButton)
+  }
+}
