@@ -228,3 +228,73 @@ export default class UI {
   static handleAddProjectPopupInput(e) {
     if (e.key === 'Enter') UI.addProject()
   }
+
+  // PROJECT EVENT LISTENERS
+
+  static initProjectButtons() {
+    const inboxProjectsButton = document.getElementById('button-inbox-projects')
+    const todayProjectsButton = document.getElementById('button-today-projects')
+    const weekProjectsButton = document.getElementById('button-week-projects')
+    const projectButtons = document.querySelectorAll('[data-project-button]')
+    const openNavButton = document.getElementById('button-open-nav')
+
+    inboxProjectsButton.addEventListener('click', UI.openInboxTasks)
+    todayProjectsButton.addEventListener('click', UI.openTodayTasks)
+    weekProjectsButton.addEventListener('click', UI.openWeekTasks)
+    projectButtons.forEach((projectButton) =>
+      projectButton.addEventListener('click', UI.handleProjectButton)
+    )
+    openNavButton.addEventListener('click', UI.openNav)
+  }
+
+  static openInboxTasks() {
+    UI.openProject('Inbox', this)
+  }
+
+  static openTodayTasks() {
+    Storage.updateTodayProject()
+    UI.openProject('Today', this)
+  }
+
+  static openWeekTasks() {
+    Storage.updateWeekProject()
+    UI.openProject('This week', this)
+  }
+
+  static handleProjectButton(e) {
+    const projectName = this.children[0].children[1].textContent
+
+    if (e.target.classList.contains('fa-times')) {
+      UI.deleteProject(projectName, this)
+      return
+    }
+
+    UI.openProject(projectName, this)
+  }
+
+  static openProject(projectName, projectButton) {
+    const defaultProjectButtons = document.querySelectorAll(
+      '.button-default-project'
+    )
+    const projectButtons = document.querySelectorAll('.button-project')
+    const buttons = [...defaultProjectButtons, ...projectButtons]
+
+    buttons.forEach((button) => button.classList.remove('active'))
+    projectButton.classList.add('active')
+    UI.closeAddProjectPopup()
+    UI.loadProjectContent(projectName)
+  }
+
+  static deleteProject(projectName, button) {
+    if (button.classList.contains('active')) UI.clearProjectPreview()
+    Storage.deleteProject(projectName)
+    UI.clearProjects()
+    UI.loadProjects()
+  }
+
+  static openNav() {
+    const nav = document.getElementById('nav')
+
+    UI.closeAllPopups()
+    nav.classList.toggle('active')
+  }
