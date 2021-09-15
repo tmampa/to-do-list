@@ -1,8 +1,8 @@
 ![](https://img.shields.io/badge/Microverse-blueviolet)
 
-# PIZZA BASE
+# To-do List
 
-> In this project, I built a resturant page that shows the resturant menu, about page and contact in tabs
+> This app allows users to add, edit and delete tasks. The users can also separate tasks in separate projects.
 
 
 ## Built With
@@ -18,7 +18,7 @@ Soon
 
 To get a local copy up and running follow these simple example steps:
 
-- [Copy this link](https://github.com/tmampa/my-restaurant-page.git)
+- [Copy this link](https://github.com/tmampa/to-do-list.git)
 - Open your terminal or command line
 - Run `git clone` and Paste the link
 - Open the folder with your code editor
@@ -41,7 +41,7 @@ To get a local copy up and running follow these simple example steps:
 
 Contributions, issues, and feature requests are welcome!
 
-Feel free to check the [issues page](https://github.com/tmampa/my-restaurant-page/issues).
+Feel free to check the [issues page](https://github.com/tmampa/to-do-list/issues).
 
 ## Show your support
 
