@@ -1,1 +1,179 @@
-<head><script defer="defer" src="/todo-list/main.js"></script><script defer="defer" src="/todo-list/main.js"></script></head>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lobster&family=Open+San&family=Nunito&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://npmcdn.com/flatpickr/dist/themes/airbnb.css"
+    />
+    <title>Todo List</title>
+  </head>
+  <body>
+    <div class="sidebar">
+      <div class="sidebar-fixed-items">
+        <div class="sidebar-item">
+          <div class="close-sidebar">
+            <span
+              class="material-icons-outlined md-24 darkgrey"
+              id="close-button"
+              >close</span
+            >
+          </div>
+          <div class="sidebar-item-content tab selected" id="inbox-tab">
+            <div class="icon">
+              <span class="material-icons-outlined md-24 lightblue">inbox</span>
+            </div>
+            <p>Inbox</p>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="sidebar-item-content tab" id="today-tab">
+            <div class="icon">
+              <span class="material-icons-outlined md-24 green">today</span>
+            </div>
+            <p>Today</p>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="sidebar-item-content tab" id="upcoming-tab">
+            <div class="icon">
+              <span class="material-icons-outlined md-24 yellow">upcoming</span>
+            </div>
+            <p>Upcoming</p>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="sidebar-item-content" id="projects-tab">
+            <div class="icon">
+              <span class="material-icons-outlined red">fact_check</span>
+            </div>
+            <p>Projects</p>
+            <span
+              class="material-icons-outlined md-24 darkgrey"
+              id="expand-projects"
+            >
+              expand_more
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="sidebar-variable-items">
+        <div class="sidebar-item projects"></div>
+        <div class="footer">
+          <h1 class="logo">ToDo</h1>
+          <p class="signature">
+            Copyright &copy 2021
+            <a rel="noopener noreferrer" href="https://github.com/tmampa" target="_blank">Tshephang</a>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="main-container">
+      <div class="project-header">
+        <div class="project-name">Inbox</div>
+        <div>
+          <span class="material-icons-outlined md-20" id="menu-button"
+            >menu</span
+          >
+        </div>
+      </div>
+      <div class="project-todos"></div>
+    </div>
+    <div class="add-button">
+      <span class="material-icons-outlined md-20">add</span>
+    </div>
+    <div class="modal" id="todo-modal">
+      <div class="modal-body">
+        <div class="modal-heading">Add Todo</div>
+        <!-- form -->
+        <form id="todo-form">
+          <input type="hidden" name="id" value="" />
+          <input type="hidden" id="operation" value="add" />
+          <input type="hidden" name="project" value="" />
+          <input
+            type="text"
+            name="title"
+            placeholder="Title"
+            class="modal-input"
+            required
+          />
+          <textarea
+            name="description"
+            rows="6"
+            wrap="hard"
+            placeholder="Description"
+            class="modal-input"
+          ></textarea>
+          <input
+            type="text"
+            name="date"
+            placeholder="Due Date"
+            class="flatpickr modal-input"
+          />
+          <select name="priority" class="modal-input" required>
+            <option value="" selected disabled hidden>Priority</option>
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+        </form>
+        <!-- buttons -->
+        <div class="modal-buttons">
+          <button
+            class="buttons modal-confirm"
+            id="todo-modal-confirm"
+            type="submit"
+            form="todo-form"
+          >
+            SAVE
+          </button>
+          <button class="buttons modal-cancel" id="todo-modal-cancel">
+            CANCEL
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="modal" id="project-modal">
+      <div class="modal-body">
+        <div class="modal-heading">New Project</div>
+        <form id="project-form">
+          <input
+            type="text"
+            name="project-name"
+            placeholder="Project Name"
+            class="modal-input"
+            required
+          />
+          <div class="project-exists-text">Project already exists!</div>
+        </form>
+        <div class="modal-buttons">
+          <button
+            class="buttons modal-confirm"
+            id="project-modal-confirm"
+            type="submit"
+            form="project-form"
+          >
+            SAVE
+          </button>
+          <button class="buttons modal-cancel" id="project-modal-cancel">
+            CANCEL
+          </button>
+        </div>
+      </div>
+    </div>
+    <script src="main.js"></script>
+  </body>
+</html>
