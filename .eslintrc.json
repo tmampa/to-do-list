@@ -12,6 +12,12 @@
     "extends": ["airbnb-base"],
     "rules": {
       "no-shadow": "off",
+      "no-underscore-dangle": "off",
+      "no-use-before-define": "off",
+      "no-unused-vars": "off",
+      "guard-for-in": "off",
+      "no-restricted-syntax": "off",
+      "default-case":"off",
       "linebreak-style": "off",
       "no-alert":"off",
       "no-param-reassign": "off",
