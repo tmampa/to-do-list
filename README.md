@@ -8,8 +8,9 @@
 ## Built With
 
 - Html5
-- Css3
+- CSS3
 - Javascript
+- JEST
 
 # live demo
 Soon
