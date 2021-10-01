@@ -24,6 +24,10 @@ To get a local copy up and running follow these simple example steps:
 - Run `git clone` and Paste the link
 - Open the folder with your code editor
 
+To install dependencies run:
+
+npm install --save-dev webpack webpack-cli webpack-dev-server html-webpack-plugin style-loader css-loader
+
 
 ### Prerequisites
 - Basic knowledge of javascript
